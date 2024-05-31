@@ -26,7 +26,8 @@ st.markdown(
     <h1>Instruction</h1>
     <p>1. Browse json CredentiaL file in Part 1) section.</p>
     <p>2. Browse CSV file which you want to ingest in Part 2) section.</p>
-    <p>3. Type table_id which came from Moderator(Opal) in Part 3) section.</p>
+    <p>3. Select function on table if add-up data > append or create new or replace table > replace in Part 3) section.</p>
+    <p>4. Type table_id which came from Moderator(Opal) in Part 3) section.</p>
     """,
     unsafe_allow_html=True
 )
