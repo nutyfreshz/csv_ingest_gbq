@@ -2,6 +2,7 @@ import subprocess
 command = ["pip", "install", "-r", "requirements.txt"]
 
 file_id = '1zolNE97MtNtclIXFMvkmjzJVpgyonpKn'
+json_file_path = 'cdg-mark-cust-prd_customer_team.json'
 subprocess.run(['gdown', '--id', file_id, '-O', json_file_path], check=True)
 
 import streamlit as st
