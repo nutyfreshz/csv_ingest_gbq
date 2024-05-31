@@ -9,12 +9,12 @@ from google.oauth2 import service_account
 import time
 
 # Title
-st.title("Upload CSV into GBQ App")
+st.title("Upload CSV into GBQ WebApp")
 
 # Caution
 st.markdown(
     """
-    <h1>Caution!!</h1>
+    <h1>#Caution!!</h1>
     <p>Number of columns and sequences in CSV file need to matched with table_id in GBQ.</p>
     """,
     unsafe_allow_html=True
@@ -23,7 +23,7 @@ st.markdown(
 # Instruction
 st.markdown(
     """
-    <h1>Instruction</h1>
+    <h1>#Instruction</h1>
     <p>1. Browse JSON CredentiaL file from moderator in Part 1) section.</p>
     <p>2. Browse CSV file which you want to ingest in Part 2) section.</p>
     <p>3. Select function on table if add-up data > append or create new or replace table > replace in Part 3) section.</p>
