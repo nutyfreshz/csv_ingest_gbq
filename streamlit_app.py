@@ -17,30 +17,30 @@ st.markdown(
     <h1>Caution!!</h1>
     <p>Number of columns and sequence need to matched with table_id in GBQ.</p>
     """,
-    unsafe_allow_html=True  # Add this parameter
+    unsafe_allow_html=True
 )
 
 # Instruction
 st.markdown(
     """
     <h1>Instruction</h1>
-    <p>1. Browse json CredentiaL file.</p>
-    <p>2. Browse CSV file which you want to ingest.</p>
-    <p>3. Type table_id which came from Moderator(Opal).</p>
+    <p>1. Browse json CredentiaL file in Part 1) section.</p>
+    <p>2. Browse CSV file which you want to ingest in Part 2) section.</p>
+    <p>3. Type table_id which came from Moderator(Opal) in Part 3) section.</p>
     """,
-    unsafe_allow_html=True  # Add this parameter
+    unsafe_allow_html=True
 )
 
 # Upload JSON credential file
-st.sidebar.header("Upload JSON Credential")
+st.sidebar.header("Part 1) Upload JSON Credential")
 uploaded_file_json = st.sidebar.file_uploader("Upload a JSON file", type=["json"])
 
 # Upload CSV file
-st.sidebar.header("Upload CSV Data")
+st.sidebar.header("Part 2) Upload CSV Data")
 uploaded_file = st.sidebar.file_uploader("Upload a CSV file", type=["csv"])
 
 # Manual input for table ID
-st.sidebar.header("BigQuery Table ID")
+st.sidebar.header("Part 3) BigQuery Table ID")
 table_id_input = st.sidebar.text_input("Enter BigQuery table ID (e.g., dataset.table_name)")
 
 # Add a button to trigger the upload process
