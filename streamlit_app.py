@@ -28,12 +28,13 @@ ingest_button = st.sidebar.button("Let's ingest into GBQ")
 
 # Load CSV file
 if uploaded_file is not None:
-    @st.cache_data
-    def load_data():
+    # Use uploaded file as cache key to invalidate the cache when a new file is uploaded
+    @st.cache_data(allow_output_mutation=True, hash_funcs={pd.DataFrame: lambda _: None})
+    def load_data(uploaded_file):
         data = pd.read_csv(uploaded_file)
         return data
 
-    data = load_data()
+    data = load_data(uploaded_file)
 
     # Display Data Sample in the main screen
     st.markdown("### Data Sample")
