@@ -15,7 +15,7 @@ st.title("Upload CSV into GBQ App")
 st.markdown(
     """
     <h1>Caution!!</h1>
-    <p>Number of columns and sequence need to matched with table_id in GBQ.</p>
+    <p>Number of columns and sequences in CSV file need to matched with table_id in GBQ.</p>
     """,
     unsafe_allow_html=True
 )
