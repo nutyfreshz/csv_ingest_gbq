@@ -14,6 +14,7 @@ st.title("Upload CSV into GBQ App")
 st.sidebar.header("Upload Data")
 uploaded_file = st.sidebar.file_uploader("Upload a CSV file", type=["csv"])
 
+# Upload JSON credential file
 st.sidebar.header("Upload JSON Credential")
 uploaded_file_json = st.sidebar.file_uploader("Upload a JSON file", type=["json"])
 
@@ -24,31 +25,38 @@ if uploaded_file is not None:
         return data
 
     data = load_data()
-    
+
     # Display Data Sample in the main screen
     st.markdown("### Data Sample")
     st.write(data.head())
 else:
     st.warning("Please upload a CSV file.")
 
+if uploaded_file_json is not None:
+    @st.cache_data
+    def load_json():
+        return json.load(uploaded_file_json)
 
-##Part 2 ingest df into gbq
-uploaded_file_json = 'cdg-mark-cust-prd_customer_team(1).json'
+    json_data = load_json()
 
-credentials = service_account.Credentials.from_service_account_file(uploaded_file_json)
+    # Display JSON content in the main screen
+    st.markdown("### JSON Credential Data")
+    st.json(json_data)
 
-project_id = 'cdg-mark-cust-prd'
-table_id = 'TEMP_NUTCHAPONG.kd_temp_store_trans_analysis_nakhon_sawan_010624'
+    # Use the uploaded JSON file to create credentials
+    credentials = service_account.Credentials.from_service_account_info(json_data)
 
-# Upload DataFrame to BigQuery
-pandas_gbq.to_gbq(df_clean_fin
-                  , table_id
-                  , project_id=project_id
-                  , if_exists='replace'
-                  , credentials=credentials
-                 )
+    # Define BigQuery details
+    project_id = 'cdg-mark-cust-prd'
+    table_id = 'TEMP_NUTCHAPONG.kd_temp_store_trans_analysis_nakhon_sawan_010624'
 
-
-
-
-
+    # Upload DataFrame to BigQuery if CSV is uploaded
+    if uploaded_file is not None:
+        st.markdown("### Uploading to BigQuery")
+        try:
+            pandas_gbq.to_gbq(data, table_id, project_id=project_id, if_exists='replace', credentials=credentials)
+            st.success("Data uploaded successfully to BigQuery")
+        except Exception as e:
+            st.error(f"An error occurred: {e}")
+else:
+    st.warning("Please upload a JSON file.")
