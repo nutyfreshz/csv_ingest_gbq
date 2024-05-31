@@ -75,4 +75,12 @@ if uploaded_file_json is not None:
                 status_text.text(f"Uploading to BigQuery: {step + 1}%")
 
             pandas_gbq.to_gbq(data, table_id_input, project_id=project_id, if_exists='append', credentials=credentials)
-            prog
+            progress_bar.progress(100)
+            status_text.text("Upload Complete!")
+            st.success("Data uploaded successfully to BigQuery")
+        except Exception as e:
+            st.error(f"An error occurred: {e}")
+    elif not table_id_input:
+        st.warning("Please enter a BigQuery table ID.")
+else:
+    st.warning("Please upload a JSON file.")
