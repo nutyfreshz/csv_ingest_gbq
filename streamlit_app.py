@@ -11,6 +11,24 @@ import time
 # Title
 st.title("Upload CSV into GBQ App")
 
+# Caution
+st.markdown(
+        """
+    <h1>Caution!!</h1>
+    <p>Number of columns and sequence need to matched with table_id in GBQ.</p>
+    """
+)
+
+# Instruction
+st.markdown(
+        """
+    <h1>Instruction</h1>
+    <p>1. Browse json CredentiaL file.</p>
+    <p>2. Browse CSV file which you want to ingest.</p>
+    <p>3. Type table_id which came from Moderator(Opal).</p>
+    """
+)
+
 # Upload JSON credential file
 st.sidebar.header("Upload JSON Credential")
 uploaded_file_json = st.sidebar.file_uploader("Upload a JSON file", type=["json"])
