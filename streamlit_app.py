@@ -5,6 +5,7 @@ import streamlit as st
 import pandas as pd
 import pandas_gbq
 import json
+from google.oauth2 import service_account
 
 # Title
 st.title("Upload CSV into GBQ App")
