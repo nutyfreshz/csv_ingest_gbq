@@ -43,6 +43,9 @@ uploaded_file = st.sidebar.file_uploader("Upload a CSV file", type=["csv"])
 st.sidebar.header("Part 3) BigQuery Table ID")
 table_id_input = st.sidebar.text_input("Enter BigQuery table ID (e.g., dataset.table_name)")
 
+# Add a selection box for if_exists parameter
+if_exists_option = st.sidebar.selectbox("Select if_exists option", ["append", "replace"])
+
 # Add a button to trigger the upload process
 ingest_button = st.sidebar.button("Let's ingest into GBQ")
 
@@ -96,7 +99,7 @@ if uploaded_file_json is not None:
                 progress_bar.progress(step + 1)
                 status_text.text(f"Uploading to BigQuery: {step + 1}%")
 
-            pandas_gbq.to_gbq(data, table_id_input, project_id=project_id, if_exists='append', credentials=credentials)
+            pandas_gbq.to_gbq(data, table_id_input, project_id=project_id, if_exists=if_exists_option, credentials=credentials)
             progress_bar.progress(100)
             status_text.text("Upload Complete!")
             st.success("Data uploaded successfully to BigQuery")
