@@ -19,6 +19,10 @@ uploaded_file_json = st.sidebar.file_uploader("Upload a JSON file", type=["json"
 st.sidebar.header("Upload CSV Data")
 uploaded_file = st.sidebar.file_uploader("Upload a CSV file", type=["csv"])
 
+# Manual input for table ID
+st.sidebar.header("BigQuery Table ID")
+table_id_input = st.sidebar.text_input("Enter BigQuery table ID (e.g., dataset.table_name)")
+
 # Load CSV file
 if uploaded_file is not None:
     @st.cache_data
@@ -50,10 +54,9 @@ if uploaded_file_json is not None:
 
     # Define BigQuery details
     project_id = 'cdg-mark-cust-prd'
-    table_id = 'TEMP_NUTCHAPONG.kd_temp_test_csv_upload'
 
-    # Upload DataFrame to BigQuery if CSV is uploaded
-    if uploaded_file is not None:
+    # Upload DataFrame to BigQuery if CSV is uploaded and table ID is provided
+    if uploaded_file is not None and table_id_input:
         st.markdown("### Uploading to BigQuery")
         
         # Initialize progress bar
@@ -68,11 +71,13 @@ if uploaded_file_json is not None:
                 progress_bar.progress(step + 1)
                 status_text.text(f"Uploading to BigQuery: {step + 1}%")
 
-            pandas_gbq.to_gbq(data, table_id, project_id=project_id, if_exists='replace', credentials=credentials)
+            pandas_gbq.to_gbq(data, table_id_input, project_id=project_id, if_exists='append', credentials=credentials)
             progress_bar.progress(100)
             status_text.text("Upload Complete!")
             st.success("Data uploaded successfully to BigQuery")
         except Exception as e:
             st.error(f"An error occurred: {e}")
+    elif not table_id_input:
+        st.warning("Please enter a BigQuery table ID.")
 else:
     st.warning("Please upload a JSON file.")
