@@ -23,6 +23,9 @@ uploaded_file = st.sidebar.file_uploader("Upload a CSV file", type=["csv"])
 st.sidebar.header("BigQuery Table ID")
 table_id_input = st.sidebar.text_input("Enter BigQuery table ID (e.g., dataset.table_name)")
 
+# Add a button to trigger the upload process
+ingest_button = st.sidebar.button("Let's ingest into GBQ")
+
 # Load CSV file
 if uploaded_file is not None:
     @st.cache_data
@@ -55,8 +58,8 @@ if uploaded_file_json is not None:
     # Define BigQuery details
     project_id = 'cdg-mark-cust-prd'
 
-    # Upload DataFrame to BigQuery if CSV is uploaded and table ID is provided
-    if uploaded_file is not None and table_id_input:
+    # Upload DataFrame to BigQuery if CSV is uploaded, table ID is provided, and button is clicked
+    if uploaded_file is not None and table_id_input and ingest_button:
         st.markdown("### Uploading to BigQuery")
         
         # Initialize progress bar
@@ -72,12 +75,4 @@ if uploaded_file_json is not None:
                 status_text.text(f"Uploading to BigQuery: {step + 1}%")
 
             pandas_gbq.to_gbq(data, table_id_input, project_id=project_id, if_exists='append', credentials=credentials)
-            progress_bar.progress(100)
-            status_text.text("Upload Complete!")
-            st.success("Data uploaded successfully to BigQuery")
-        except Exception as e:
-            st.error(f"An error occurred: {e}")
-    elif not table_id_input:
-        st.warning("Please enter a BigQuery table ID.")
-else:
-    st.warning("Please upload a JSON file.")
+            prog
