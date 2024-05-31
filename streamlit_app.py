@@ -39,12 +39,12 @@ uploaded_file_json = st.sidebar.file_uploader("Upload a JSON file", type=["json"
 st.sidebar.header("Part 2) Upload CSV Data")
 uploaded_file = st.sidebar.file_uploader("Upload a CSV file", type=["csv"])
 
+# Add a selection box for if_exists parameter
+if_exists_option = st.sidebar.selectbox("Select function", ["append", "replace"])
+
 # Manual input for table ID
 st.sidebar.header("Part 3) BigQuery Table ID")
-table_id_input = st.sidebar.text_input("Enter BigQuery table ID (e.g., dataset.table_name)")
-
-# Add a selection box for if_exists parameter
-if_exists_option = st.sidebar.selectbox("Select if_exists option", ["append", "replace"])
+table_id_input = st.sidebar.text_input("Enter BigQuery table ID (e.g., owner.table_name)")
 
 # Add a button to trigger the upload process
 ingest_button = st.sidebar.button("Let's ingest into GBQ")
