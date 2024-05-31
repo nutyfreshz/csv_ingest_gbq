@@ -30,3 +30,24 @@ if uploaded_file is not None:
 else:
     st.warning("Please upload a CSV file.")
 
+
+##Part 2 ingest df into gbq
+uploaded_file_json = 'cdg-mark-cust-prd_customer_team(1).json'
+
+credentials = service_account.Credentials.from_service_account_file(uploaded_file_json)
+
+project_id = 'cdg-mark-cust-prd'
+table_id = 'TEMP_NUTCHAPONG.kd_temp_store_trans_analysis_nakhon_sawan_010624'
+
+# Upload DataFrame to BigQuery
+pandas_gbq.to_gbq(df_clean_fin
+                  , table_id
+                  , project_id=project_id
+                  , if_exists='replace'
+                  , credentials=credentials
+                 )
+
+
+
+
+
