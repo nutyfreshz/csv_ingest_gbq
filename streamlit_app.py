@@ -8,6 +8,7 @@ import json
 from google.oauth2 import service_account
 import time
 from datetime import date
+import numpy as np
 
 # Title
 st.title("Upload CSV into GBQ WebApp")
