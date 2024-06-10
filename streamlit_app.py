@@ -7,6 +7,7 @@ import pandas_gbq
 import json
 from google.oauth2 import service_account
 import time
+from datetime import date
 
 # Title
 st.title("Upload CSV into GBQ WebApp")
@@ -48,6 +49,12 @@ if_exists_option = st.sidebar.selectbox("Select function", ["append", "replace"]
 
 #Input Bigquery table
 table_id_input = st.sidebar.text_input("Enter BigQuery table ID (e.g., owner.table_name)")
+
+#Input banner before ingest tgt/ctrl
+banner_option = st.sidebar.selectbox("Select Banner", ["DS", "CDS","RBS"])
+
+#Input campaign_name before ingest tgt/ctrl
+campaign_name_input = st.sidebar.text_input("Enter Campaign (e.g., 2024-04_RBS_SUMMER)")
 
 # Add a button to trigger the upload process
 ingest_button = st.sidebar.button("Let's ingest into GBQ")
