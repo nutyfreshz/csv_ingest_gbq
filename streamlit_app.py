@@ -92,7 +92,7 @@ if uploaded_file is not None:
     st.markdown("### Data Sample")
     st.write(data.head())
     st.write("Data contain: ", data.shape[0], " rows", " and ", data.shape[1], " columns")
-    st.write(data.info())
+    st.write(print(data.info()))
 
     # Show success message for CSV upload
     st.success("CSV file uploaded successfully.")
