@@ -17,6 +17,7 @@ st.markdown(
     """
     <h1>#Caution!!</h1>
     <p>Number of columns and sequences in CSV file need to matched with table_id in GBQ.</p>
+    <p>PS. group_name & commu_type[EDM,SMS,LINE] & target columns should be exists in CSV file.</p>
     """,
     unsafe_allow_html=True
 )
@@ -33,6 +34,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+
 # Upload JSON credential file
 st.sidebar.header("Part 1) Upload JSON Credential")
 uploaded_file_json = st.sidebar.file_uploader("Upload a JSON file", type=["json"])
@@ -48,13 +50,22 @@ st.sidebar.header("Part 3) BigQuery Table ID")
 if_exists_option = st.sidebar.selectbox("Select function", ["append", "replace"])
 
 #Input Bigquery table
-table_id_input = st.sidebar.text_input("Enter BigQuery table ID (e.g., owner.table_name)")
+table_id_input = st.sidebar.text_input("Enter BigQuery table ID (e.g. owner.table_name)")
 
 #Input banner before ingest tgt/ctrl
 banner_option = st.sidebar.selectbox("Select Banner", ["DS", "CDS","RBS"])
 
 #Input campaign_name before ingest tgt/ctrl
-campaign_name_input = st.sidebar.text_input("Enter Campaign (e.g., 2024-04_RBS_SUMMER)")
+campaign_name_input = st.sidebar.text_input("Enter Campaign name(e.g. 2024-04_RBS_SUMMER)")
+
+#Input subgroup before ingest tgt/ctrl
+subgroup_name_input = st.sidebar.text_input("Enter subgroup name(e.g. offer, commu)")
+
+#Input start_campaign period before ingest tgt/ctrl
+start_camp_input = st.sidebar.text_input("Enter start_campaign period(e.g. 2024-04-16)")
+
+#Input end_campaign period before ingest tgt/ctrl
+end_camp_input = st.sidebar.text_input("Enter end_campaign period(e.g. 2024-04-26)")
 
 # Add a button to trigger the upload process
 ingest_button = st.sidebar.button("Let's ingest into GBQ")
@@ -68,6 +79,13 @@ if uploaded_file is not None:
         return data
 
     data = load_data(uploaded_file)
+    ##manipulate data before ingest
+    data['campaign_name'] = campaign_name_input
+    data['bu'] = banner_option
+    data['subgroup_name'] = subgroup_name_input
+    data['create_date'] = date.today()
+    data['start_campaign'] = start_camp_input
+    data['end_campaign'] = end_camp_input
 
     # Display Data Sample in the main screen
     st.markdown("### Data Sample")
