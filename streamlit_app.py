@@ -57,6 +57,15 @@ start_camp_input = st.sidebar.text_input("Enter start_campaign period(e.g. 2024-
 #Input end_campaign period before ingest tgt/ctrl
 end_camp_input = st.sidebar.text_input("Enter end_campaign period(e.g. 2024-04-26)")
 
+#Input send_date_sms period before ingest tgt/ctrl
+send_date_sms_input = st.sidebar.text_input("Enter send_date_sms period(e.g. 2024-04-26)")
+
+#Input send_date_sms period before ingest tgt/ctrl
+send_date_edm_input = st.sidebar.text_input("Enter send_date_edm period(e.g. 2024-04-26)")
+
+#Input send_date_sms period before ingest tgt/ctrl
+send_date_app_input = st.sidebar.text_input("Enter send_date_line period(e.g. 2024-04-26)")
+
 uploaded_file = st.sidebar.file_uploader("Upload a CSV file", type=["csv"])
 
 # Manual input for table ID
@@ -88,6 +97,19 @@ if uploaded_file is not None:
     data['start_campaign'] = start_camp_input
     data['end_campaign'] = end_camp_input
 
+    data['send_sms'] = np.where(data['commu_type'].str.contains('SMS', case=False, na=False), 'Y', 'N')
+    data['send_edm'] = np.where(data['commu_type'].str.contains('EDM', case=False, na=False), 'Y', 'N')
+    data['send_line'] = np.where(data['commu_type'].str.contains('LINE', case=False, na=False), 'Y', 'N')
+    data['send_the1app'] = np.where(data['commu_type'].str.contains('APP', case=False, na=False), 'Y', 'N')
+    data['send_colapp'] = np.where(data['commu_type'].str.contains('COL', case=False, na=False), 'Y', 'N')
+
+    data['send_date_sms'] = np.where(data['commu_type'].str.contains('SMS', case=False, na=False), send_date_sms_input, np.nan)
+    data['send_date_edm'] = np.where(data['commu_type'].str.contains('EDM', case=False, na=False), send_date_edm_input, np.nan)
+    data['send_date_line'] = np.where(data['commu_type'].str.contains('LINE', case=False, na=False), send_date_line_input, np.nan)
+    data['send_date_t1app'] = np.where(data['commu_type'].str.contains('APP', case=False, na=False), send_date_app_input, np.nan)
+    data['send_date_colapp'] = np.where(data['commu_type'].str.contains('COL', case=False, na=False), send_date_app_input, np.nan)
+    ###Don't forget to convert str to datetime and convert np.nan in to null before ingest GBQ
+    
     # Display Data Sample in the main screen
     st.markdown("### Data Sample")
     st.write(data.head())
