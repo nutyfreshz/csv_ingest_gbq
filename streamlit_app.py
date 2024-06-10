@@ -40,17 +40,7 @@ st.sidebar.header("Part 1) Upload JSON Credential")
 uploaded_file_json = st.sidebar.file_uploader("Upload a JSON file", type=["json"])
 
 # Upload CSV file
-st.sidebar.header("Part 2) Upload CSV Data")
-uploaded_file = st.sidebar.file_uploader("Upload a CSV file", type=["csv"])
-
-# Manual input for table ID
-st.sidebar.header("Part 3) BigQuery Table ID")
-
-# Add a selection box for if_exists parameter
-if_exists_option = st.sidebar.selectbox("Select function", ["append", "replace"])
-
-#Input Bigquery table
-table_id_input = st.sidebar.text_input("Enter BigQuery table ID (e.g. owner.table_name)")
+st.sidebar.header("Part 2) Write data & Upload CSV Data")
 
 #Input banner before ingest tgt/ctrl
 banner_option = st.sidebar.selectbox("Select Banner", ["DS", "CDS","RBS"])
@@ -66,6 +56,17 @@ start_camp_input = st.sidebar.text_input("Enter start_campaign period(e.g. 2024-
 
 #Input end_campaign period before ingest tgt/ctrl
 end_camp_input = st.sidebar.text_input("Enter end_campaign period(e.g. 2024-04-26)")
+
+uploaded_file = st.sidebar.file_uploader("Upload a CSV file", type=["csv"])
+
+# Manual input for table ID
+st.sidebar.header("Part 3) BigQuery Table ID")
+
+# Add a selection box for if_exists parameter
+if_exists_option = st.sidebar.selectbox("Select function", ["append", "replace"])
+
+#Input Bigquery table
+table_id_input = st.sidebar.text_input("Enter BigQuery table ID (e.g. owner.table_name)")
 
 # Add a button to trigger the upload process
 ingest_button = st.sidebar.button("Let's ingest into GBQ")
