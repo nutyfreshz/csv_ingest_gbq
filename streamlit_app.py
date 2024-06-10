@@ -46,7 +46,7 @@ st.sidebar.header("Part 2) Write data & Upload CSV Data")
 banner_option = st.sidebar.selectbox("Select Banner", ["DS", "CDS","RBS"])
 
 #Input campaign_name before ingest tgt/ctrl
-campaign_name_input = st.sidebar.text_input("Enter Campaign name(e.g. 2024-04_RBS_SUMMER)")
+campaign_name_input = st.sidebar.text_input("Enter Campaign name(e.g. 2024-04_RBS_CRM_SUMMER)")
 
 #Input subgroup before ingest tgt/ctrl
 subgroup_name_input = st.sidebar.text_input("Enter subgroup name(e.g. offer, commu)")
@@ -92,6 +92,7 @@ if uploaded_file is not None:
     st.markdown("### Data Sample")
     st.write(data.head())
     st.write("Data contain: ", data.shape[0], " rows", " and ", data.shape[1], " columns")
+    st.write(data.info())
 
     # Show success message for CSV upload
     st.success("CSV file uploaded successfully.")
