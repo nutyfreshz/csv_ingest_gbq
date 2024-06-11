@@ -131,7 +131,7 @@ if uploaded_file is not None:
     data['send_date_sms'] = np.where(data['commu_type'].str.contains('SMS', case=False, na=False), send_date_sms_input, np.nan)
     data['send_date_edm'] = np.where(data['commu_type'].str.contains('EDM', case=False, na=False), send_date_edm_input, np.nan)
     data['send_date_line'] = np.where(data['commu_type'].str.contains('LINE', case=False, na=False), send_date_line_input, np.nan)
-    data['send_date_t1app'] = np.where(data['commu_type'].str.contains('T1APP', case=False, na=False), send_date_t1app_input, np.nan)
+    data['send_date_the1app'] = np.where(data['commu_type'].str.contains('T1APP', case=False, na=False), send_date_t1app_input, np.nan)
     data['send_date_colapp'] = np.where(data['commu_type'].str.contains('COL', case=False, na=False), send_date_colapp_input, np.nan)
     data['send_date_martech'] = np.where(data['commu_type'].str.contains('MART', case=False, na=False), send_date_martech_input, np.nan)
     data['send_date_facebook'] = np.where(data['commu_type'].str.contains('FB', case=False, na=False), send_date_fb_input, np.nan)
@@ -142,9 +142,10 @@ if uploaded_file is not None:
     
     ###Don't forget to convert str to datetime and convert np.nan in to null before ingest GBQ
     ###Select column
-    data = data[['bu','campaign_name','group_name','subgroup_name','target','create_date','start_campaign'
+    data = data[[
+                  'bu','campaign_name','group_name','subgroup_name','target','create_date','start_campaign'
                  ,'end_campaign','send_sms','send_date_sms','send_edm','send_date_edm','send_line','send_date_line'
-                 ,'send_the1app','send_date_t1app','send_colapp','send_date_colapp','send_martech','send_date_martech'
+                 ,'send_the1app','send_date_the1app','send_colapp','send_date_colapp','send_martech','send_date_martech'
                  ,'send_facebook','send_date_facebook','send_call','send_date_call','requester','data_owner','member_number'
                 ]]
     # Display Data Sample in the main screen
