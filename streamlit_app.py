@@ -142,12 +142,7 @@ if uploaded_file is not None:
     
     ###Don't forget to convert str to datetime and convert np.nan in to null before ingest GBQ
     ###Select column
-    data = data[[
-                  'bu','campaign_name','group_name','subgroup_name','target','create_date','start_campaign'
-                 ,'end_campaign','send_sms','send_date_sms','send_edm','send_date_edm','send_line','send_date_line'
-                 ,'send_the1app','send_date_the1app','send_colapp','send_date_colapp','send_martech','send_date_martech'
-                 ,'send_facebook','send_date_facebook','send_call','send_date_call','requester','data_owner','member_number'
-                ]]
+    data = data[['bu','campaign_name','group_name','subgroup_name','target','create_date','start_campaign','end_campaign','send_sms','send_date_sms','send_edm','send_date_edm','send_line','send_date_line','send_the1app','send_date_the1app','send_colapp','send_date_colapp','send_martech','send_date_martech','send_facebook','send_date_facebook','send_call','send_date_call','requester','data_owner','member_number']]
     # Display Data Sample in the main screen
     st.markdown("### Data Sample")
     st.write(data.head())
