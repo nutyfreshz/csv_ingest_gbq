@@ -16,7 +16,8 @@ st.markdown(
     """
     <h1>#Caution!!</h1>
     <p>Number of columns and sequences in CSV file need to matched with table_id in GBQ.</p>
-    <p>PS. group_name & commu_type[EDM,SMS,LINE] & target columns should be exists in CSV file.</p>
+    <p>PS. group_name & commu_type & target columns should be exists in CSV file.</p>
+    <p>PSS. commu_type = [SMS,EDM,LINE,T1APP,COL,MART,FB,CALL] For input send_date, commu_type = SMS,EDM then send_date_sms & send_date_edm must be filled!! </p>
     """,
     unsafe_allow_html=True
 )
