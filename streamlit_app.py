@@ -61,11 +61,29 @@ end_camp_input = st.sidebar.text_input("Enter end_campaign period(e.g. 2024-04-2
 #Input send_date_sms period before ingest tgt/ctrl
 send_date_sms_input = st.sidebar.text_input("Enter send_date_sms period(e.g. 2024-04-26)")
 
-#Input send_date_sms period before ingest tgt/ctrl
+#Input send_date_edm period before ingest tgt/ctrl
 send_date_edm_input = st.sidebar.text_input("Enter send_date_edm period(e.g. 2024-04-26)")
 
-#Input send_date_sms period before ingest tgt/ctrl
-send_date_app_input = st.sidebar.text_input("Enter send_date_line period(e.g. 2024-04-26)")
+#Input send_date_t1app period before ingest tgt/ctrl
+send_date_t1app_input = st.sidebar.text_input("Enter send_date_t1app period(e.g. 2024-04-26)")
+
+#Input send_date_app period before ingest tgt/ctrl
+send_date_colapp_input = st.sidebar.text_input("Enter send_date_colapp period(e.g. 2024-04-26)")
+
+#Input send_date_martech period before ingest tgt/ctrl
+send_date_martech_input = st.sidebar.text_input("Enter send_date_martech period(e.g. 2024-04-26)")
+
+#Input send_date_facebook period before ingest tgt/ctrl
+send_date_fb_input = st.sidebar.text_input("Enter send_date_facebook period(e.g. 2024-04-26)")
+
+#Input send_date_call period before ingest tgt/ctrl
+send_date_call_input = st.sidebar.text_input("Enter send_date_call period(e.g. 2024-04-26)")
+
+#Input requester
+req_option = st.sidebar.selectbox("Select Banner", ["Bodee B.","Chegita S.","Kamontip A.","Lalita P.","Napas K.","Paniti T.","Pattamaporn V.","Phuwanat T.","Sypabhas T.","Thus S.","Tunsinee U.","Watcharapon P."])
+
+#Input data_owner
+ownwer_option =  st.sidebar.selectbox("Select Banner", ["Kamontip A.","Kittipob S.","Nutchapong L.","Paniti T.","Pattamaporn V.","Phat P.","Pornpawit J."])
 
 uploaded_file = st.sidebar.file_uploader("Upload a CSV file", type=["csv"])
 
@@ -91,8 +109,8 @@ if uploaded_file is not None:
 
     data = load_data(uploaded_file)
     ##manipulate data before ingest
-    data['campaign_name'] = campaign_name_input
     data['bu'] = banner_option
+    data['campaign_name'] = campaign_name_input
     data['subgroup_name'] = subgroup_name_input
     data['create_date'] = date.today()
     data['start_campaign'] = start_camp_input
@@ -101,16 +119,31 @@ if uploaded_file is not None:
     data['send_sms'] = np.where(data['commu_type'].str.contains('SMS', case=False, na=False), 'Y', 'N')
     data['send_edm'] = np.where(data['commu_type'].str.contains('EDM', case=False, na=False), 'Y', 'N')
     data['send_line'] = np.where(data['commu_type'].str.contains('LINE', case=False, na=False), 'Y', 'N')
-    data['send_the1app'] = np.where(data['commu_type'].str.contains('APP', case=False, na=False), 'Y', 'N')
+    data['send_the1app'] = np.where(data['commu_type'].str.contains('T1APP', case=False, na=False), 'Y', 'N')
     data['send_colapp'] = np.where(data['commu_type'].str.contains('COL', case=False, na=False), 'Y', 'N')
+    data['send_martech'] = np.where(data['commu_type'].str.contains('MART', case=False, na=False), 'Y', 'N')
+    data['send_facebook'] = np.where(data['commu_type'].str.contains('FB', case=False, na=False), 'Y', 'N')
+    data['send_call'] = np.where(data['commu_type'].str.contains('CALL', case=False, na=False), 'Y', 'N')
 
     data['send_date_sms'] = np.where(data['commu_type'].str.contains('SMS', case=False, na=False), send_date_sms_input, np.nan)
     data['send_date_edm'] = np.where(data['commu_type'].str.contains('EDM', case=False, na=False), send_date_edm_input, np.nan)
     data['send_date_line'] = np.where(data['commu_type'].str.contains('LINE', case=False, na=False), send_date_line_input, np.nan)
-    data['send_date_t1app'] = np.where(data['commu_type'].str.contains('APP', case=False, na=False), send_date_app_input, np.nan)
-    data['send_date_colapp'] = np.where(data['commu_type'].str.contains('COL', case=False, na=False), send_date_app_input, np.nan)
-    ###Don't forget to convert str to datetime and convert np.nan in to null before ingest GBQ
+    data['send_date_t1app'] = np.where(data['commu_type'].str.contains('T1APP', case=False, na=False), send_date_t1app_input, np.nan)
+    data['send_date_colapp'] = np.where(data['commu_type'].str.contains('COL', case=False, na=False), send_date_colapp_input, np.nan)
+    data['send_date_martech'] = np.where(data['commu_type'].str.contains('MART', case=False, na=False), send_date_martech_input, np.nan)
+    data['send_date_facebook'] = np.where(data['commu_type'].str.contains('FB', case=False, na=False), send_date_fb_input, np.nan)
+    data['send_date_call'] = np.where(data['commu_type'].str.contains('CALL', case=False, na=False), send_date_call_input, np.nan)
+
+    data['requester'] = req_option
+    data['data_owner'] = owner_option
     
+    ###Don't forget to convert str to datetime and convert np.nan in to null before ingest GBQ
+    ###Select column
+    data = data[['bu','campaign_name','group_name','subgroup_name','target','create_date','start_campaign'
+                 ,'end_campaign','send_sms','send_date_sms','send_edm','send_date_edm','send_line','send_date_line'
+                 ,'send_the1app','send_date_t1app','send_colapp','send_date_colapp','send_martech','send_date_martech'
+                 ,'send_facebook','send_date_facebook','send_call','send_date_call','requester','data_owner','member_number'
+                ]]
     # Display Data Sample in the main screen
     st.markdown("### Data Sample")
     st.write(data.head())
