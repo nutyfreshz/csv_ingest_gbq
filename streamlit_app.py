@@ -86,7 +86,7 @@ send_date_call_input = st.sidebar.text_input("Enter send_date_call period(e.g. 2
 req_option = st.sidebar.selectbox("Select requester", ["Bodee B.","Chegita S.","Kamontip A.","Lalita P.","Napas K.","Paniti T.","Pattamaporn V.","Phuwanat T.","Sypabhas T.","Thus S.","Tunsinee U.","Watcharapon P."])
 
 #Input data_owner
-ownwer_option =  st.sidebar.selectbox("Select data_owner", ["Kamontip A.","Kittipob S.","Nutchapong L.","Paniti T.","Pattamaporn V.","Phat P.","Pornpawit J."])
+owner_option =  st.sidebar.selectbox("Select data_owner", ["Kamontip A.","Kittipob S.","Nutchapong L.","Paniti T.","Pattamaporn V.","Phat P.","Pornpawit J."])
 
 uploaded_file = st.sidebar.file_uploader("Upload a CSV file", type=["csv"])
 
