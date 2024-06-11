@@ -1,6 +1,4 @@
 import subprocess
-command = ["pip", "install", "-r", "requirements.txt"]
-
 import streamlit as st
 import pandas as pd
 import pandas_gbq
@@ -199,6 +197,8 @@ if uploaded_file_json is not None:
             progress_bar.progress(100)
             status_text.text("Upload Complete!")
             st.success("Data uploaded successfully to BigQuery")
+        except BrokenPipeError:
+            pass  # Ignore broken pipe errors
         except Exception as e:
             st.error(f"An error occurred: {e}")
     elif not table_id_input:
