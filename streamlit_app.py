@@ -64,6 +64,9 @@ send_date_sms_input = st.sidebar.text_input("Enter send_date_sms period(e.g. 202
 #Input send_date_edm period before ingest tgt/ctrl
 send_date_edm_input = st.sidebar.text_input("Enter send_date_edm period(e.g. 2024-04-26)")
 
+#Input send_date_edm period before ingest tgt/ctrl
+send_date_line_input = st.sidebar.text_input("Enter send_date_line period(e.g. 2024-04-26)")
+
 #Input send_date_t1app period before ingest tgt/ctrl
 send_date_t1app_input = st.sidebar.text_input("Enter send_date_t1app period(e.g. 2024-04-26)")
 
