@@ -141,7 +141,7 @@ if uploaded_file is not None:
     data['data_owner'] = owner_option
     
     ### Don't forget to convert str to datetime and convert np.nan to null before ingesting to GBQ
-    Convert date columns to datetime
+    #Convert date columns to datetime
     date_columns = [
         'create_date', 'start_campaign', 'end_campaign', 'send_date_sms', 'send_date_edm', 
         'send_date_line', 'send_date_the1app', 'send_date_colapp', 'send_date_martech', 
