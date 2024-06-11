@@ -43,50 +43,50 @@ uploaded_file_json = st.sidebar.file_uploader("Upload a JSON file", type=["json"
 # Upload CSV file
 st.sidebar.header("Part 2) Write data & Upload CSV Data")
 
-#Input banner before ingest tgt/ctrl
+# Input banner before ingest tgt/ctrl
 banner_option = st.sidebar.selectbox("Select Banner", ["DS", "CDS","RBS"])
 
-#Input campaign_name before ingest tgt/ctrl
+# Input campaign_name before ingest tgt/ctrl
 campaign_name_input = st.sidebar.text_input("Enter Campaign name(e.g. 2024-04_RBS_CRM_SUMMER)")
 
-#Input subgroup before ingest tgt/ctrl
+# Input subgroup before ingest tgt/ctrl
 subgroup_name_input = st.sidebar.text_input("Enter subgroup name(e.g. offer, commu)")
 
-#Input start_campaign period before ingest tgt/ctrl
+# Input start_campaign period before ingest tgt/ctrl
 start_camp_input = st.sidebar.text_input("Enter start_campaign period(e.g. 2024-04-16)")
 
-#Input end_campaign period before ingest tgt/ctrl
+# Input end_campaign period before ingest tgt/ctrl
 end_camp_input = st.sidebar.text_input("Enter end_campaign period(e.g. 2024-04-26)")
 
-#Input send_date_sms period before ingest tgt/ctrl
+# Input send_date_sms period before ingest tgt/ctrl
 send_date_sms_input = st.sidebar.text_input("Enter send_date_sms period(e.g. 2024-04-26)")
 
-#Input send_date_edm period before ingest tgt/ctrl
+# Input send_date_edm period before ingest tgt/ctrl
 send_date_edm_input = st.sidebar.text_input("Enter send_date_edm period(e.g. 2024-04-26)")
 
-#Input send_date_edm period before ingest tgt/ctrl
+# Input send_date_edm period before ingest tgt/ctrl
 send_date_line_input = st.sidebar.text_input("Enter send_date_line period(e.g. 2024-04-26)")
 
-#Input send_date_t1app period before ingest tgt/ctrl
+# Input send_date_t1app period before ingest tgt/ctrl
 send_date_t1app_input = st.sidebar.text_input("Enter send_date_t1app period(e.g. 2024-04-26)")
 
-#Input send_date_app period before ingest tgt/ctrl
+# Input send_date_app period before ingest tgt/ctrl
 send_date_colapp_input = st.sidebar.text_input("Enter send_date_colapp period(e.g. 2024-04-26)")
 
-#Input send_date_martech period before ingest tgt/ctrl
+# Input send_date_martech period before ingest tgt/ctrl
 send_date_martech_input = st.sidebar.text_input("Enter send_date_martech period(e.g. 2024-04-26)")
 
-#Input send_date_facebook period before ingest tgt/ctrl
+# Input send_date_facebook period before ingest tgt/ctrl
 send_date_fb_input = st.sidebar.text_input("Enter send_date_facebook period(e.g. 2024-04-26)")
 
-#Input send_date_call period before ingest tgt/ctrl
+# Input send_date_call period before ingest tgt/ctrl
 send_date_call_input = st.sidebar.text_input("Enter send_date_call period(e.g. 2024-04-26)")
 
-#Input requester
+# Input requester
 req_option = st.sidebar.selectbox("Select requester", ["Bodee B.","Chegita S.","Kamontip A.","Lalita P.","Napas K.","Paniti T.","Pattamaporn V.","Phuwanat T.","Sypabhas T.","Thus S.","Tunsinee U.","Watcharapon P."])
 
-#Input data_owner
-owner_option =  st.sidebar.selectbox("Select data_owner", ["Kamontip A.","Kittipob S.","Nutchapong L.","Paniti T.","Pattamaporn V.","Phat P.","Pornpawit J."])
+# Input data_owner
+owner_option = st.sidebar.selectbox("Select data_owner", ["Kamontip A.","Kittipob S.","Nutchapong L.","Paniti T.","Pattamaporn V.","Phat P.","Pornpawit J."])
 
 uploaded_file = st.sidebar.file_uploader("Upload a CSV file", type=["csv"])
 
@@ -96,7 +96,7 @@ st.sidebar.header("Part 3) BigQuery Table ID")
 # Add a selection box for if_exists parameter
 if_exists_option = st.sidebar.selectbox("Select function", ["append", "replace"])
 
-#Input Bigquery table
+# Input Bigquery table
 table_id_input = st.sidebar.text_input("Enter BigQuery table ID (e.g. owner.table_name)")
 
 # Add a button to trigger the upload process
@@ -111,7 +111,7 @@ if uploaded_file is not None:
         return data
 
     data = load_data(uploaded_file)
-    ##manipulate data before ingest
+    ## manipulate data before ingest
     data['bu'] = banner_option
     data['campaign_name'] = campaign_name_input
     data['subgroup_name'] = subgroup_name_input
@@ -140,13 +140,26 @@ if uploaded_file is not None:
     data['requester'] = req_option
     data['data_owner'] = owner_option
     
-    ###Don't forget to convert str to datetime and convert np.nan in to null before ingest GBQ
-    ###Select column
-    data = data[['bu','campaign_name','group_name','subgroup_name','target','create_date','start_campaign','end_campaign','send_sms','send_date_sms','send_edm','send_date_edm','send_line','send_date_line','send_the1app','send_date_the1app','send_colapp','send_date_colapp','send_martech','send_date_martech','send_facebook','send_date_facebook','send_call','send_date_call','requester','data_owner','member_number']]
+    ### Don't forget to convert str to datetime and convert np.nan to null before ingesting to GBQ
+    # Convert date columns to datetime
+    date_columns = [
+        'create_date', 'start_campaign', 'end_campaign', 'send_date_sms', 'send_date_edm', 
+        'send_date_line', 'send_date_the1app', 'send_date_colapp', 'send_date_martech', 
+        'send_date_facebook', 'send_date_call'
+    ]
+    for col in date_columns:
+        data[col] = pd.to_datetime(data[col], errors='coerce')
+    
+    ### Select columns
+    data = data[['bu','campaign_name','group_name','subgroup_name','target','create_date','start_campaign','end_campaign',
+                 'send_sms','send_date_sms','send_edm','send_date_edm','send_line','send_date_line','send_the1app',
+                 'send_date_the1app','send_colapp','send_date_colapp','send_martech','send_date_martech','send_facebook',
+                 'send_date_facebook','send_call','send_date_call','requester','data_owner','member_number']]
+    
     # Display Data Sample in the main screen
     st.markdown("### Data Sample")
     st.write(data.head())
-    st.write("Data contain: ", data.shape[0], " rows", " and ", data.shape[1], " columns")
+    st.write("Data contains: ", data.shape[0], " rows", " and ", data.shape[1], " columns")
 
     # Show success message for CSV upload
     st.success("CSV file uploaded successfully.")
