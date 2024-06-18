@@ -17,7 +17,8 @@ st.markdown(
     <h1>#Caution!!</h1>
     <p>Number of columns and sequences in CSV file need to matched with table_id in GBQ.</p>
     <p>PS. group_name & commu_type & target columns should be exists in CSV file.</p>
-    <p>PSS. commu_type = [SMS,EDM,LINE,T1APP,COL,MART,FB,CALL] For input send_date, commu_type = SMS,EDM then send_date_sms & send_date_edm must be filled!! </p>
+    <p>PSS. commu_type = [SMS,EDM,LINE,T1APP,COL,MART,FB,CALL]</p>
+    <p>For input send_date, commu_type = SMS,EDM then send_date_sms & send_date_edm must be filled!! </p>
     """,
     unsafe_allow_html=True
 )
@@ -28,7 +29,7 @@ st.markdown(
     <h1>#Instruction</h1>
     <p>1. Browse JSON CredentiaL file from moderator in Part 1) section.</p>
     <p>2. Browse CSV file which you want to ingest in Part 2) section.</p>
-    <p>3. Select function on table if add-up data => "append" or create new table => "fail" in Part 3) section.</p>
+    <p>3. Select function on table if ADD-UP data => "append" or CREATE new table => "fail" in Part 3) section.</p>
     <p>4. Type table_id which came from Moderator in Part 3) section.</p>
     """,
     unsafe_allow_html=True
