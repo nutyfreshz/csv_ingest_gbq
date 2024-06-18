@@ -28,7 +28,7 @@ st.markdown(
     <h1>#Instruction</h1>
     <p>1. Browse JSON CredentiaL file from moderator in Part 1) section.</p>
     <p>2. Browse CSV file which you want to ingest in Part 2) section.</p>
-    <p>3. Select function on table if add-up data > append or create new or replace table > replace in Part 3) section.</p>
+    <p>3. Select function on table if add-up data => "append" or create new table => "fail" in Part 3) section.</p>
     <p>4. Type table_id which came from Moderator in Part 3) section.</p>
     """,
     unsafe_allow_html=True
@@ -93,7 +93,7 @@ uploaded_file = st.sidebar.file_uploader("Upload a CSV file", type=["csv"])
 st.sidebar.header("Part 3) BigQuery Table ID")
 
 # Add a selection box for if_exists parameter
-if_exists_option = st.sidebar.selectbox("Select function", ["append", "replace"])
+if_exists_option = st.sidebar.selectbox("Select function", ["append", "fail"])
 
 # Input Bigquery table
 table_id_input = st.sidebar.text_input("Enter BigQuery table ID (e.g. owner.table_name)")
