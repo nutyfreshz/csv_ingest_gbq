@@ -110,8 +110,11 @@ if uploaded_file is not None:
         return data
 
     data = load_data(uploaded_file)
-    if 'commu_type' in data.columns:
-        ## manipulate data before ingest
+    required_columns = ['commu_type', 'target', 'group_name']
+    missing_columns = [column for column in required_columns if column not in data.columns]
+    
+    if not missing_columns:
+        # manipulate data before ingest
         data['bu'] = banner_option
         data['campaign_name'] = campaign_name_input
         data['subgroup_name'] = subgroup_name_input
@@ -163,7 +166,7 @@ if uploaded_file is not None:
         # Show success message for CSV upload
         st.success("CSV file uploaded successfully.")
     else:
-        st.error("CSV file does not contain the required 'commu_type' column.")
+        st.error(f"CSV file does not contain the required columns: {', '.join(missing_columns)}.")
 else:
     st.warning("Please upload a CSV file.")
 
