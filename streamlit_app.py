@@ -35,7 +35,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
 # Upload JSON credential file
 st.sidebar.header("Part 1) Upload JSON Credential")
 uploaded_file_json = st.sidebar.file_uploader("Upload a JSON file", type=["json"])
@@ -111,57 +110,60 @@ if uploaded_file is not None:
         return data
 
     data = load_data(uploaded_file)
-    ## manipulate data before ingest
-    data['bu'] = banner_option
-    data['campaign_name'] = campaign_name_input
-    data['subgroup_name'] = subgroup_name_input
-    data['create_date'] = date.today()
-    data['start_campaign'] = start_camp_input
-    data['end_campaign'] = end_camp_input
+    if 'commu_type' in data.columns:
+        ## manipulate data before ingest
+        data['bu'] = banner_option
+        data['campaign_name'] = campaign_name_input
+        data['subgroup_name'] = subgroup_name_input
+        data['create_date'] = date.today()
+        data['start_campaign'] = start_camp_input
+        data['end_campaign'] = end_camp_input
 
-    data['send_sms'] = np.where(data['commu_type'].str.contains('SMS', case=False, na=False), 'Y', 'N')
-    data['send_edm'] = np.where(data['commu_type'].str.contains('EDM', case=False, na=False), 'Y', 'N')
-    data['send_line'] = np.where(data['commu_type'].str.contains('LINE', case=False, na=False), 'Y', 'N')
-    data['send_the1app'] = np.where(data['commu_type'].str.contains('T1APP', case=False, na=False), 'Y', 'N')
-    data['send_colapp'] = np.where(data['commu_type'].str.contains('COL', case=False, na=False), 'Y', 'N')
-    data['send_martech'] = np.where(data['commu_type'].str.contains('MART', case=False, na=False), 'Y', 'N')
-    data['send_facebook'] = np.where(data['commu_type'].str.contains('FB', case=False, na=False), 'Y', 'N')
-    data['send_call'] = np.where(data['commu_type'].str.contains('CALL', case=False, na=False), 'Y', 'N')
+        data['send_sms'] = np.where(data['commu_type'].str.contains('SMS', case=False, na=False), 'Y', 'N')
+        data['send_edm'] = np.where(data['commu_type'].str.contains('EDM', case=False, na=False), 'Y', 'N')
+        data['send_line'] = np.where(data['commu_type'].str.contains('LINE', case=False, na=False), 'Y', 'N')
+        data['send_the1app'] = np.where(data['commu_type'].str.contains('T1APP', case=False, na=False), 'Y', 'N')
+        data['send_colapp'] = np.where(data['commu_type'].str.contains('COL', case=False, na=False), 'Y', 'N')
+        data['send_martech'] = np.where(data['commu_type'].str.contains('MART', case=False, na=False), 'Y', 'N')
+        data['send_facebook'] = np.where(data['commu_type'].str.contains('FB', case=False, na=False), 'Y', 'N')
+        data['send_call'] = np.where(data['commu_type'].str.contains('CALL', case=False, na=False), 'Y', 'N')
 
-    data['send_date_sms'] = np.where(data['commu_type'].str.contains('SMS', case=False, na=False), send_date_sms_input, np.nan)
-    data['send_date_edm'] = np.where(data['commu_type'].str.contains('EDM', case=False, na=False), send_date_edm_input, np.nan)
-    data['send_date_line'] = np.where(data['commu_type'].str.contains('LINE', case=False, na=False), send_date_line_input, np.nan)
-    data['send_date_the1app'] = np.where(data['commu_type'].str.contains('T1APP', case=False, na=False), send_date_t1app_input, np.nan)
-    data['send_date_colapp'] = np.where(data['commu_type'].str.contains('COL', case=False, na=False), send_date_colapp_input, np.nan)
-    data['send_date_martech'] = np.where(data['commu_type'].str.contains('MART', case=False, na=False), send_date_martech_input, np.nan)
-    data['send_date_facebook'] = np.where(data['commu_type'].str.contains('FB', case=False, na=False), send_date_fb_input, np.nan)
-    data['send_date_call'] = np.where(data['commu_type'].str.contains('CALL', case=False, na=False), send_date_call_input, np.nan)
+        data['send_date_sms'] = np.where(data['commu_type'].str.contains('SMS', case=False, na=False), send_date_sms_input, np.nan)
+        data['send_date_edm'] = np.where(data['commu_type'].str.contains('EDM', case=False, na=False), send_date_edm_input, np.nan)
+        data['send_date_line'] = np.where(data['commu_type'].str.contains('LINE', case=False, na=False), send_date_line_input, np.nan)
+        data['send_date_the1app'] = np.where(data['commu_type'].str.contains('T1APP', case=False, na=False), send_date_t1app_input, np.nan)
+        data['send_date_colapp'] = np.where(data['commu_type'].str.contains('COL', case=False, na=False), send_date_colapp_input, np.nan)
+        data['send_date_martech'] = np.where(data['commu_type'].str.contains('MART', case=False, na=False), send_date_martech_input, np.nan)
+        data['send_date_facebook'] = np.where(data['commu_type'].str.contains('FB', case=False, na=False), send_date_fb_input, np.nan)
+        data['send_date_call'] = np.where(data['commu_type'].str.contains('CALL', case=False, na=False), send_date_call_input, np.nan)
 
-    data['requester'] = req_option
-    data['data_owner'] = owner_option
-    
-    ### Don't forget to convert str to datetime and convert np.nan to null before ingesting to GBQ
-    date_columns = [
-        'create_date', 'start_campaign', 'end_campaign', 'send_date_sms', 'send_date_edm', 
-        'send_date_line', 'send_date_the1app', 'send_date_colapp', 'send_date_martech', 
-        'send_date_facebook', 'send_date_call']
+        data['requester'] = req_option
+        data['data_owner'] = owner_option
 
-    for col in date_columns:
-        data[col] = pd.to_datetime(data[col], errors='coerce')
-    
-    ### Select columns
-    data = data[['bu','campaign_name','group_name','subgroup_name','target','create_date','start_campaign','end_campaign',
-                 'send_sms','send_date_sms','send_edm','send_date_edm','send_line','send_date_line','send_the1app',
-                 'send_date_the1app','send_colapp','send_date_colapp','send_martech','send_date_martech','send_facebook',
-                 'send_date_facebook','send_call','send_date_call','requester','data_owner','member_number']]
-    
-    # Display Data Sample in the main screen
-    st.markdown("### Data Sample")
-    st.write(data.head())
-    st.write("Data contains: ", data.shape[0], " rows", " and ", data.shape[1], " columns")
+        ### Don't forget to convert str to datetime and convert np.nan to null before ingesting to GBQ
+        date_columns = [
+            'create_date', 'start_campaign', 'end_campaign', 'send_date_sms', 'send_date_edm', 
+            'send_date_line', 'send_date_the1app', 'send_date_colapp', 'send_date_martech', 
+            'send_date_facebook', 'send_date_call']
 
-    # Show success message for CSV upload
-    st.success("CSV file uploaded successfully.")
+        for col in date_columns:
+            data[col] = pd.to_datetime(data[col], errors='coerce')
+        
+        ### Select columns
+        data = data[['bu','campaign_name','group_name','subgroup_name','target','create_date','start_campaign','end_campaign',
+                     'send_sms','send_date_sms','send_edm','send_date_edm','send_line','send_date_line','send_the1app',
+                     'send_date_the1app','send_colapp','send_date_colapp','send_martech','send_date_martech','send_facebook',
+                     'send_date_facebook','send_call','send_date_call','requester','data_owner','member_number']]
+        
+        # Display Data Sample in the main screen
+        st.markdown("### Data Sample")
+        st.write(data.head())
+        st.write("Data contains: ", data.shape[0], " rows", " and ", data.shape[1], " columns")
+
+        # Show success message for CSV upload
+        st.success("CSV file uploaded successfully.")
+    else:
+        st.error("CSV file does not contain the required 'commu_type' column.")
 else:
     st.warning("Please upload a CSV file.")
 
