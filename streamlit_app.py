@@ -93,7 +93,13 @@ uploaded_file = st.sidebar.file_uploader("Upload a CSV file", type=["csv"])
 st.sidebar.header("Part 3) BigQuery Table ID")
 
 # Add a selection box for if_exists parameter
-if_exists_option = st.sidebar.selectbox("Select function", ["append", "fail"])
+# if_exists_option = st.sidebar.selectbox("Select function", ["append", "fail"])
+if_exists_map = {
+    "Add Data": "append",
+    "Create Table": "fail"
+}
+if_exists_option = st.sidebar.selectbox("Select function", list(if_exists_map.keys()))
+if_exists_value = if_exists_map[if_exists_option]
 
 # Input Bigquery table
 table_id_input = st.sidebar.text_input("Enter BigQuery table ID (e.g. owner.table_name)")
@@ -200,7 +206,7 @@ if uploaded_file_json is not None:
                 progress_bar.progress(step + 1)
                 status_text.text(f"Uploading to BigQuery: {step + 1}%")
 
-            pandas_gbq.to_gbq(data, table_id_input, project_id=project_id, if_exists=if_exists_option, credentials=credentials)
+            pandas_gbq.to_gbq(data, table_id_input, project_id=project_id, if_exists=if_exists_value, credentials=credentials)
             progress_bar.progress(100)
             status_text.text("Upload Complete!")
             st.success("Data uploaded successfully to BigQuery")
