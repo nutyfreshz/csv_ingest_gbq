@@ -42,7 +42,7 @@ uploaded_file_json = st.sidebar.file_uploader("Upload a JSON file", type=["json"
 st.sidebar.header("Part 2) Write data & Upload CSV Data")
 
 # Input banner before ingest tgt/ctrl
-banner_option = st.sidebar.selectbox("Select Banner", ["DS", "CDS","RBS"])
+banner_option = st.sidebar.selectbox("Select Banner", ["CDS","RBS"])
 
 # Input campaign_name before ingest tgt/ctrl
 campaign_name_input = st.sidebar.text_input("Enter Campaign name(e.g. 2024-04_RBS_CRM_SUMMER)")
