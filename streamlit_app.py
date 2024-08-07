@@ -150,9 +150,9 @@ if uploaded_file is not None:
 
         ### Don't forget to convert str to datetime and convert np.nan to null before ingesting to GBQ
         date_columns = [
-            'create_date', 'start_campaign', 'end_campaign', 'send_date_sms', 'send_date_edm', 
-            'send_date_line', 'send_date_the1app', 'send_date_colapp', 'send_date_martech', 
-            'send_date_facebook', 'send_date_call']
+            'create_date', 'start_campaign', 'end_campaign', 'send_date_sms', 'send_date_edm', 'send_date_line', 
+            'send_date_the1app', 'send_date_colapp', 'send_date_martech', 'send_date_facebook', 'send_date_call'
+        ]
 
         for col in date_columns:
             data[col] = pd.to_datetime(data[col], errors='coerce')
@@ -163,9 +163,26 @@ if uploaded_file is not None:
                      'send_date_the1app','send_colapp','send_date_colapp','send_martech','send_date_martech','send_facebook',
                      'send_date_facebook','send_call','send_date_call','requester','data_owner','member_number']]
         
-        # Check for validation rule: if send_sms = 'Y' then send_date_sms must be filled
-        if data.loc[data['send_sms'] == 'Y', 'send_date_sms'].isnull().any():
-            st.error("Validation Error: send_date_sms must be filled when send_sms is 'Y'.")
+        # Validation rules for each communication type
+        validation_rules = {
+            'send_sms': 'send_date_sms',
+            'send_edm': 'send_date_edm',
+            'send_line': 'send_date_line',
+            'send_the1app': 'send_date_the1app',
+            'send_colapp': 'send_date_colapp',
+            'send_martech': 'send_date_martech',
+            'send_facebook': 'send_date_facebook',
+            'send_call': 'send_date_call'
+        }
+
+        validation_errors = []
+        for comm_type, send_date in validation_rules.items():
+            if data.loc[data[comm_type] == 'Y', send_date].isnull().any():
+                validation_errors.append(f"Validation Error: {send_date} must be filled when {comm_type} is 'Y'.")
+
+        if validation_errors:
+            for error in validation_errors:
+                st.error(error)
         else:
             # Display Data Sample in the main screen
             st.markdown("### Data Sample")
