@@ -11,6 +11,10 @@ import numpy as np
 # Title
 st.title("Upload CSV into GBQ WebApp")
 
+# Display the image
+url_images = 'https://i.ibb.co/nCvgDNy/example-table-ingest.png'
+st.image(url_images, caption='Example of CSV data ingest into BigQuery')
+
 # Caution
 st.markdown(
     """
@@ -178,7 +182,7 @@ if uploaded_file is not None:
         validation_errors = []
         for comm_type, send_date in validation_rules.items():
             if data.loc[data[comm_type] == 'Y', send_date].isnull().any():
-                validation_errors.append(f"Validation Error: {send_date} must be filled when {comm_type} is 'Y'.")
+                validation_errors.append(f"Validation Error: {send_date} must be filled because {comm_type} is 'Y'.")
 
         if validation_errors:
             for error in validation_errors:
