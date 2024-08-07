@@ -27,7 +27,7 @@ st.markdown(
 st.markdown(
     """
     <h1>#Instruction</h1>
-    <p>1. Browse JSON CredentiaL file from moderator in Part 1) section.</p>
+    <p>1. Browse JSON Credential file from moderator in Part 1) section.</p>
     <p>2. Browse CSV file which you want to ingest in Part 2) section.</p>
     <p>3. Type table_id which came from Moderator in Part 3) section.</p>
     """,
@@ -163,13 +163,17 @@ if uploaded_file is not None:
                      'send_date_the1app','send_colapp','send_date_colapp','send_martech','send_date_martech','send_facebook',
                      'send_date_facebook','send_call','send_date_call','requester','data_owner','member_number']]
         
-        # Display Data Sample in the main screen
-        st.markdown("### Data Sample")
-        st.write(data.head())
-        st.write("Data contains: ", data.shape[0], " rows", " and ", data.shape[1], " columns")
+        # Check for validation rule: if send_sms = 'Y' then send_date_sms must be filled
+        if data.loc[data['send_sms'] == 'Y', 'send_date_sms'].isnull().any():
+            st.error("Validation Error: send_date_sms must be filled when send_sms is 'Y'.")
+        else:
+            # Display Data Sample in the main screen
+            st.markdown("### Data Sample")
+            st.write(data.head())
+            st.write("Data contains: ", data.shape[0], " rows", " and ", data.shape[1], " columns")
 
-        # Show success message for CSV upload
-        st.success("CSV file uploaded successfully.")
+            # Show success message for CSV upload
+            st.success("CSV file uploaded successfully.")
     else:
         st.error(f"CSV file does not contain the required columns: {', '.join(missing_columns)}.")
 else:
