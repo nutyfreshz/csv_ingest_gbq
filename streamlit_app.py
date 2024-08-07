@@ -11,10 +11,6 @@ import numpy as np
 # Title
 st.title("Upload CSV into GBQ WebApp")
 
-# Display the image
-url_images = 'https://i.ibb.co/nCvgDNy/example-table-ingest.png'
-st.image(url_images, caption='Example of CSV data ingest into BigQuery')
-
 # Caution
 st.markdown(
     """
@@ -26,6 +22,16 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
+# Display the image
+st.markdown(
+    """
+    <h1>#Example of CSV data ingest into BigQuery</h1>
+    """,
+    unsafe_allow_html=True
+)
+url_images = 'https://i.ibb.co/nCvgDNy/example-table-ingest.png'
+st.image(url_images)
 
 # Instruction
 st.markdown(
